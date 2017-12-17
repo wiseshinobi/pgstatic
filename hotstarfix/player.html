@@ -326,7 +326,7 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 
 <div class="container">
 	<div>
-		<a href="/" class="hp-logo"><img src="images/logo.png"
+		<a href="/" class="hp-logo"><img src="/images/logo.png"
 			width="240" height="60"></a>
 	</div>
 </div>
@@ -381,6 +381,22 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 
 
 		<div class="container faq-section margin-top-30">
+			<div>
+<!-- Composite Start -->
+<div id="M166642ScriptRootC76589">
+        <div id="M166642PreloadC76589">
+        Loading...
+    </div>
+        <script>
+                (function(){
+            var D=new Date(),d=document,b='body',ce='createElement',ac='appendChild',st='style',ds='display',n='none',gi='getElementById';
+            var i=d[ce]('iframe');i[st][ds]=n;d[gi]("M166642ScriptRootC76589")[ac](i);try{var iw=i.contentWindow.document;iw.open();iw.writeln("<ht"+"ml><bo"+"dy></bo"+"dy></ht"+"ml>");iw.close();var c=iw[b];}
+            catch(e){var iw=d;var c=d[gi]("M166642ScriptRootC76589");}var dv=iw[ce]('div');dv.id="MG_ID";dv[st][ds]=n;dv.innerHTML=76589;c[ac](dv);
+            var s=iw[ce]('script');s.async='async';s.defer='defer';s.charset='utf-8';s.src="//jsc.mgid.com/h/l/hlsplayer.net.76589.js?t="+D.getYear()+D.getMonth()+D.getDate()+D.getHours();c[ac](s);})();
+    </script>
+</div>
+<!-- Composite End -->
+			</div>
 
 
 			<h4>What is HLS?</h4>
@@ -424,17 +440,17 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 	</div>
 </div>
 
-<script src="libs/jquery/jquery.min.js"></script>
-<script src="libs/bootstrap/js/bootstrap.min.js"></script>
-<script src="libs/swfobject/swfobject.min.js"></script>
-<script src="js/main.js"></script>
+<script src="/libs/jquery/jquery.min.js"></script>
+<script src="/libs/bootstrap/js/bootstrap.min.js"></script>
+<script src="/libs/swfobject/swfobject.min.js"></script>
+<script src="/js/main.js"></script>
 
 <!-- font-awesome -->
 <script>
 	var cb = function() {
 		var l = document.createElement('link');
 		l.rel = 'stylesheet';
-		l.href = 'libs/font-awesome/css/font-awesome.min.css';
+		l.href = '/libs/font-awesome/css/font-awesome.min.css';
 		var h = document.getElementsByTagName('head')[0];
 		h.parentNode.insertBefore(l, h);
 	};
@@ -454,26 +470,31 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 			return false;
 		}
 		$(document).ready(function() {
-            var getParam = window.location.search.substr(1);
-            if(!!getParam) {
-                var vidURL = getParam.slice(2);
-                console.log(vidURL);
+            var getParams = window.location.search.substr(1); // v=<vidurl>&t=<token>
+            if(!!getParams) {
+                vidURL = getParams.split('&')[0].slice(2);
+				token = getParams.split('&')[1].slice(2);
+                console.log("vidURL: " + vidURL);
+				console.log("token: " + token);
                 var urlPieces = vidURL.split('/');
                 if(urlPieces.length > 1) {
                     var hid = urlPieces[urlPieces.length - 1];
-                    // Got this from: https://github.com/biezom/hotstarsportslivestreamer/blob/master/hotstarlivestreamer.php
-                    var reqURL = "http://getcdn.hotstar.com/AVS/besc?action=GetCDN&asJson=Y&channel=TABLET&id="+hid+"&type=VOD";
-                    $.getJSON(reqURL+"&callback=?", function(data) {
-                        console.log(data);
-                        var cdnURL = data.resultObj.src;
-                        $('#player-src').val(cdnURL);
-                        $('#player-form').submit();
-                    });
+					console.log("hid: " + hid);
+					var reqURL = "http://secure-getcdn.hotstar.com/AVS/besc?hotstarauth="+token+"&action=GetCDN&appVersion=5.0.40&asJson=Y&channel=TABLET&id="+hid+"&type=VOD";
+					$.getJSON(reqURL+"&callback=?", function(data) {
+						console.log("getCDN: " + data);
+						var cdnURL = data.resultObj.src;
+						console.log("cdnURL: " + cdnURL);
+						$('#player-src').val(cdnURL);
+						play();
+						//$('#player-form').submit();
+					});
                 }
-            }
-			play();
-			$('#player-form').submit(play);
+			}
+			//play();
+			//$('#player-form').submit(play);
 		});
 	</script>
+	<script id="tada" src="http://www.hotstar.com/get_cdn_token.php"></script>
 </body>
 </html>
